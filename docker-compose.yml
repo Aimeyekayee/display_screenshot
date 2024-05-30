@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  baratsuki_fe:
+  frontend:
     build: ./frontend
     container_name: frontend
     ports:
@@ -9,11 +9,5 @@ services:
       - ./frontend/:/usr/app/
       - dependencies:/usr/app/node_modules
     restart: always
-  baratsuki_be:
-    build: ./backend
-    container_name: backend
-    volumes:
-      - ./backend/:/code/
-    command: python main.py
 volumes:
   dependencies:
