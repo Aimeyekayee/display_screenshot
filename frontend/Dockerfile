@@ -20,9 +20,7 @@ COPY . .
 
 RUN find . -type f -name '.env**.*' -delete
 COPY ./$BUILD_ENV .env
-ENV NEXT_TELEMETRY_DISABLED 1
 
-ENV NEXT_PRIVATE_STANDALONE true
 
 
 RUN yarn run build
@@ -31,8 +29,6 @@ RUN yarn run build
 FROM node:18-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
