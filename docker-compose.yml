@@ -4,7 +4,7 @@ services:
     build: ./frontend
     container_name: frontend
     ports:
-      - 3004:3004
+      - 3005:3005
     volumes:
       - ./frontend/:/usr/app/
       - dependencies:/usr/app/node_modules
