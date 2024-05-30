@@ -8,7 +8,7 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       setRefreshCounter((prevCounter) => (prevCounter + 1) % 2);
-    }, 5000); // 5 seconds for testing purposes
+    }, 5000); 
 
     return () => clearInterval(interval);
   }, []);
