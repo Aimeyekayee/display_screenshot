@@ -1,4 +1,5 @@
 "use client";
+import environment from "@/utils/environment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -17,7 +18,10 @@ export default function Home() {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <Image
-        src={`http://172.23.3.18/Andon/Rotor_Assy_Line2.png?refresh=${refreshCounter}`}
+        src={`${environment.IMAGE_SERVER}/Andon/Rotor_Assy_Line2.png?refresh=${refreshCounter}`}
+        loader={() =>
+          `${environment.IMAGE_SERVER}/Andon/Rotor_Assy_Line2.png?refresh=${refreshCounter}`
+        }
         alt={`Description of the image`}
         layout="fill"
         objectFit="contain"

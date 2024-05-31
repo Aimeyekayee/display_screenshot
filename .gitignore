@@ -1,0 +1,7 @@
+# fastapi
+**/*venv/
+**/*__pycache__
+**/*versions/*
+
+# environment
+.env
