@@ -41,7 +41,12 @@ def open_url(addresses):
             )
         )
         driver.set_window_size(1920, 1080)  # to set the screenshot width
-        file_name = address.split("/")[-1]
+        if "boardno=7&pageno=2" in address:
+            file_name = "Setup_time_Rotor_Assy_Line2"
+        elif "boardno=9&pageno=2" in address:
+            file_name = "Alarm_Pareto_Rotor_Assy_Line2"
+        else:
+            file_name = "{}.png".format(address.split("/")[-1])
         save_screenshot(driver, "{}\{}".format(videos_folder, file_name))
     driver.quit()
 
@@ -112,7 +117,8 @@ def scroll_down(driver):
 def scheduled_task():
     url_list = url_list = [
         "http://192.168.101.70/View/browse/Rotor_Assy_Line2",
-        "http://192.168.101.70/View/browse/Rotor_Assy_Line2",
+        "http://192.168.101.71/apl/monitor?boardno=7&pageno=2",
+        "http://192.168.101.71/apl/monitor?boardno=9&pageno=2",
     ]
     open_url(url_list)
 
