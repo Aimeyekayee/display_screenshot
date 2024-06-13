@@ -5,17 +5,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
+from apscheduler.schedulers.blocking import BlockingScheduler
 import logging
 import os
 import time
 import datetime as dt
-from apscheduler.schedulers.blocking import BlockingScheduler
 
 # Set default download folder for ChromeDriver
-videos_folder = r"\\172.23.3.18\shared\Andon"
-if not os.path.exists(videos_folder):
-    os.makedirs(videos_folder)
-prefs = {"download.default_directory": videos_folder}
+image_folder = r"\\172.23.3.18\shared\Andon"
+if not os.path.exists(image_folder):
+    os.makedirs(image_folder)
+prefs = {"download.default_directory": image_folder}
 
 
 def open_url(addresses):
@@ -34,20 +34,12 @@ def open_url(addresses):
     driver.implicitly_wait(1)
     driver.maximize_window()
     for address in addresses:
-        driver.get(address)
-        WebDriverWait(driver, 10).until(
-            EC.invisibility_of_element_located(
-                (By.CSS_SELECTOR, "loading-overlay-modal")
-            )
-        )
+        [url,name,by,locate_text] = address
+        driver.get(url)
+        WebDriverWait(driver,10).until(EC.invisibility_of_element_located((by,locate_text)))
         driver.set_window_size(1920, 1080)  # to set the screenshot width
-        if "boardno=7&pageno=2" in address:
-            file_name = "Setup_time_Rotor_Assy_Line2"
-        elif "boardno=9&pageno=2" in address:
-            file_name = "Alarm_Pareto_Rotor_Assy_Line2"
-        else:
-            file_name = "{}.png".format(address.split("/")[-1])
-        save_screenshot(driver, "{}\{}".format(videos_folder, file_name))
+        file_name = name
+        save_screenshot(driver, "{}\{}.png".format(image_folder,file_name))
     driver.quit()
 
 
@@ -58,11 +50,7 @@ def save_screenshot(driver, file_name):
     img = Image.open(BytesIO(img_binary))
     img.save(file_name)
     # print(file_name)
-    print(
-        "{}: Screenshot saved as {}.png".format(
-            dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), file_name
-        )
-    )
+    print("{}: Screenshot saved as {}".format(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),file_name))
 
 
 def scroll_down(driver):
@@ -113,16 +101,13 @@ def scroll_down(driver):
 
     return total_height, total_width
 
-
-def scheduled_task():
-    url_list = url_list = [
-        "http://192.168.101.70/View/browse/Rotor_Assy_Line2",
-        "http://192.168.101.71/apl/monitor?boardno=7&pageno=2",
-        "http://192.168.101.71/apl/monitor?boardno=9&pageno=2",
-    ]
+def scheduled_tasks():
+    url_list = [["http://192.168.101.70/View/browse/Rotor_Assy_Line2","OA_Rotor_Assy_Line2",By.CSS_SELECTOR,".loading-overlay-modal"],
+                ["http://192.168.101.71/apl/monitor?boardno=7&pageno=2","Setup_time_Rotor_Assy_Line2",By.ID,"startLoadingAnime"],
+                ["http://192.168.101.71/apl/monitor?boardno=9&pageno=2","Alarm_Pareto_Rotor_Assy_Line2",By.ID,"startLoadingAnime"]
+                ]
     open_url(url_list)
 
-
 scheduler = BlockingScheduler()
-scheduler.add_job(scheduled_task, "interval", seconds=25)
+scheduler.add_job(scheduled_tasks,'interval', seconds=25)
 scheduler.start()
