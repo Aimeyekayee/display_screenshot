@@ -3,7 +3,7 @@ import environment from "@/utils/environment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function SetupMain() {
+export default function AndonMain() {
   const [timestamp, setTimestamp] = useState(Date.now());
 
   useEffect(() => {
@@ -17,9 +17,9 @@ export default function SetupMain() {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <Image
-        src={`${environment.IMAGE_SERVER}/Andon/image/Setup_time_Rotor_Assy_Line2.png?refresh=${timestamp}`}
+        src={`${environment.IMAGE_SERVER}/Andon/image/OA_Rotor_Assy_Line2.png?refresh=${timestamp}`}
         loader={() =>
-          `${environment.IMAGE_SERVER}/Andon/image/Setup_time_Rotor_Assy_Line2.png?refresh=${timestamp}`
+          `${environment.IMAGE_SERVER}/Andon/image/OA_Rotor_Assy_Line2.png?refresh=${timestamp}`
         }
         alt={`Description of the image`}
         layout="fill"
