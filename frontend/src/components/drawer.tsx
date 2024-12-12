@@ -33,7 +33,7 @@ const DrawerForm: React.FC = () => {
   const handleFetchLine = async () => {
     try {
       // const response = await axios.get(`${environment.IMAGE_SERVER}/get_line`);
-      const response = await axios.get(`http://127.0.0.1:8000/get_line`);
+      const response = await axios.get(`http://10.122.77.1:8012/get_line`);
       setLines(response.data);
     } catch (err) {
       console.error(err);
