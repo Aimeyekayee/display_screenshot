@@ -8,5 +8,14 @@ services:
       - ./frontend/:/usr/app/
       - dependencies:/usr/app/node_modules
     restart: always
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - 8012:8000
+    restart: always
+    volumes:
+      - ./backend:/code
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
 volumes:
   dependencies:
